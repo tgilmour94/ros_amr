@@ -1,0 +1,7 @@
+
+
+ sim_time: 1
+  xy_goal_tolerance: 0.1
+  yaw_goal_tolerance: 0.1
+controller_frequency: 10
+  meter_scoring: false

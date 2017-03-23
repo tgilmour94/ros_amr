@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<launch>
+
+    <arg name="camera" default="camera" />
+
+    <!-- start sensor-->
+    <include file="$(find openni_launch)/launch/openni.launch">
+        <arg name="camera" default="$(arg camera)"/>
+    </include>
+
+    <!-- run odom and tf_broadcaster -->
+    <node pkg="mobile_robot_lf" type="V2line_follower" name="line_follower" required="true" />
+
+    <node pkg="rosserial_python" type="serial_node.py" name="rosserial" output="screen" required="true">
+        <param name="port" value="/dev/arduino" />
+        <param name="baud" value="57600" />
+    </node>
+    
+
+</launch>
+

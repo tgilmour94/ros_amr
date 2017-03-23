@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<launch>
+
+
+
+    <!-- start sensor-->
+    <include file="$(find depthimage_to_laserscan)/launch/depthimage_lasercan_node.launch"/>
+    <!-- run odom and tf_broadcaster -->
+    
+    <node pkg="mobile_robot_odom" type="odom_mobile_robot" name="odom" />
+   
+    <node pkg="mobile_robot_setup_tf" type="tf_robot" name="tf_robot" />
+
+    <node pkg="rosserial_python" type="serial_node.py" name="rosserial" output="screen" required="true">
+        <param name="port" value="/dev/arduino" />
+        <param name="baud" value="57600" />
+    </node>
+    
+
+
+</launch>

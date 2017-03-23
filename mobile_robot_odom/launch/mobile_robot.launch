@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+
+<launch>
+    
+    <arg name="camera" default="camera" />
+
+    <!-- start sensor-->
+    <include file="$(find openni_launch)/launch/openni.launch">
+        <arg name="camera" default="$(arg camera)"/>
+    </include>
+
+    <!-- laserscan node-->
+    <node pkg="depthimage_to_laserscan" type="depthimage_to_laserscan" name="depthimage_to_laserscan">
+
+        <remap from="image" to="$(arg camera)/depth/image_raw"/>
+        <remap from="scan" to="/scan"/>
+        <rosparam>
+            output_frame_id: base_laser # Leave disabled to output scan in pointcloud frame
+            transform_tolerance: 0.01
+            scan_height: 1
+            scan_time: 0.03333
+            range_min: 0.45
+            range_max: 10.0
+          
+        </rosparam>
+
+    </node>
+    <!-- run odom and tf_broadcaster -->
+    
+    <node pkg="mobile_robot_odom" type="odom_mobile_robot" name="odom" />
+   
+    <node pkg="mobile_robot_setup_tf" type="tf_robot" name="tf_robot" />
+
+    <node pkg="rosserial_python" type="serial_node.py" name="rosserial" output="screen" required="true">
+        <param name="port" value="/dev/arduino" />
+        <param name="baud" value="57600" />
+    </node>
+    
+
+
+</launch>
